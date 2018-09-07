@@ -1,0 +1,73 @@
+spring:
+  application:
+  # the same with com.yiqiniu.easytrans.test.Constant.APPID
+    name: easy-trans--producer
+  datasource:
+    url: jdbc:mysql://localhost:3306/anthony?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+
+
+debug: true
+    
+logging:
+  level:
+    root: info
+
+easytrans:
+  common:
+    leastLogModel: true # true：记录必要的最少的日志，以达到最终一致的目标，正常流程下性能高,异常流程下可能会导致多次重复调用远程服务（因为幂等，所以没关系，只是有性能损耗） false:记录下整个最终一致过程的日志，易于排错，异常流程下性能高
+    tablePrefix: ''
+  master:
+    zk:
+      zooKeeperUrl: localhost:2181
+  stringcodec:
+    zk:
+      enabled: true
+      zooKeeperUrl: ${easytrans.master.zk.zooKeeperUrl}
+  idgen:
+    trxId:
+      zkSnow:
+        zooKeeperUrl: ${easytrans.master.zk.zooKeeperUrl}
+  log:
+    database:
+      enabled: true
+      logCleanEnabled: true
+      logReservedDays: 14
+      logCleanTime: 01:22:00
+      tablePrefix: ''
+      druid:
+        driverClassName: com.mysql.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/anthony?useUnicode=true&characterEncoding=utf-8
+        username: root
+        password: root
+  queue:
+    kafka:
+      enabled: true
+      produerCfg:
+        nativeCfg:
+          bootstrap.servers: localhost:9092
+          acks: all
+          retries: 0
+          batch.size: 16384
+          linger.ms: 1
+          buffer.memory: 3554432
+          key.serializer: org.apache.kafka.common.serialization.StringSerializer
+          value.serializer: org.apache.kafka.common.serialization.ByteArraySerializer
+server:
+  port: 8088
+
+mybatis:
+  type-aliases-package: com.anthony.trans.producer.pojo
+  mapper-locations: classpath:mapper/*.xml
+
+mapper:
+  mappers: CommonMapper
+  not-empty: false
+  identity: MYSQL
+
+
+
+
+
