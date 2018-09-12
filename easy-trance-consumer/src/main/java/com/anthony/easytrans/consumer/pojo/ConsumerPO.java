@@ -6,7 +6,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Created by BG343891 on 2018/9/4.
+ *
+ * @author BG343891
+ * @date 2018/9/4
  */
 @Data
 @Table(name = "consumer")
