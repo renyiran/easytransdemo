@@ -1,14 +1,16 @@
 spring:
   application:
   # the same with com.yiqiniu.easytrans.test.Constant.APPID
-    name: easy-trans-consumer
+    name: easy-trans--consumer
   datasource:
-    url: jdbc:mysql://localhost:3306/anthony?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/easytrans?useUnicode=true&characterEncoding=utf-8
     username: root
     password: root
-    driverClassName: com.mysql.jdbc.Driver
-debug: true
+    driver-class-name: com.mysql.jdbc.Driver
 
+
+debug: true
+    
 logging:
   level:
     root: info
@@ -20,14 +22,14 @@ easytrans:
   master:
     zk:
       zooKeeperUrl: localhost:2181
-  stringcodec:
-    zk:
-      enabled: true
-      zooKeeperUrl: ${easytrans.master.zk.zooKeeperUrl}
-  idgen:
-    trxId:
-      zkSnow:
-        zooKeeperUrl: ${easytrans.master.zk.zooKeeperUrl}
+#  stringcodec:
+#    zk:
+#      enabled: true
+#      zooKeeperUrl: ${easytrans.master.zk.zooKeeperUrl}
+#  idgen:
+#    trxId:
+#      zkSnow:
+#        zooKeeperUrl: ${easytrans.master.zk.zooKeeperUrl}
   log:
     database:
       enabled: true
@@ -37,11 +39,19 @@ easytrans:
       tablePrefix: ''
       druid:
         driverClassName: com.mysql.jdbc.Driver
-        url: jdbc:mysql://localhost:3306/anthony?useUnicode=true&characterEncoding=utf-8
+        url: jdbc:mysql://localhost:3306/easytrans?useUnicode=true&characterEncoding=utf-8
         username: root
         password: root
     kafka:
       enabled: true
+  idgen:
+      trxId:
+        zkSnow:
+          zooKeeperUrl: ${easytrans.master.zk.zooKeeperUrl}
+  stringcodec:
+      zk:
+        enabled: true
+        zooKeeperUrl: ${easytrans.master.zk.zooKeeperUrl}
   queue:
     kafka:
       enabled: true
@@ -57,13 +67,13 @@ easytrans:
           value.serializer: org.apache.kafka.common.serialization.ByteArraySerializer
       consumer-cfg:
               reconsume: # when error occur,when the message will be reconsume.for efficent,please keep the array below small.
-      #          - [3000,3] # retry every 3000 millseconds,for 3 times,after 3 time faliures will move to the next retry level
-      #          - [60000,5] # retry every 1 minutes,for 3 times,after 3 time faliures will move to the next retry level
-      #          - [300000,3] # retry every 5 minutes,for 3 times,after 3 time faliures will move to the next retry level
-      #          - [3600000] # retry every 1 hour,forever
-                - [1000,1] # dead message queue test, you should use the config above in your business
-                - [2000,1]
-                - [3000]
+                - [3000,3] # retry every 3000 millseconds,for 3 times,after 3 time faliures will move to the next retry level
+                - [60000,3] # retry every 1 minutes,for 3 times,after 3 time faliures will move to the next retry level
+                - [300000,3] # retry every 5 minutes,for 3 times,after 3 time faliures will move to the next retry level
+                - [3600000] # retry every 1 hour,forever
+#                - [1000,1] # dead message queue test, you should use the config above in your business
+#                - [2000,1]
+#                - [3000]
               native-cfg:
                 bootstrap.servers: localhost:9092
                 group.id: ${spring.application.name}
@@ -71,17 +81,17 @@ easytrans:
                 max.poll.records: 100
                 key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
                 value.deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+server:
+  port: 8088
 
 mybatis:
-  type-aliases-package: com.anthony.easytrans.consumer.pojo
+  type-aliases-package: com.anthony.trans.consumer.pojo
   mapper-locations: classpath:mapper/*.xml
 
 mapper:
-  mappers: com.anthony.easytrans.consumer.mapper.CommonMapper
+  mappers: com.anthony.trans.consumer.mapper.CommonMapper
   not-empty: false
   identity: MYSQL
-server:
-  port: 8089
 
 
 

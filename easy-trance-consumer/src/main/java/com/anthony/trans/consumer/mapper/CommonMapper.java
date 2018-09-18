@@ -1,4 +1,4 @@
-package com.anthony.easytrans.consumer.mapper;
+package com.anthony.trans.consumer.mapper;
 
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;

@@ -1,4 +1,4 @@
-package com.anthony.trans.producer.config;
+package com.anthony.trance.api.config;
 
 import com.yiqiniu.easytrans.core.*;
 import com.yiqiniu.easytrans.datasource.DataSourceSelector;

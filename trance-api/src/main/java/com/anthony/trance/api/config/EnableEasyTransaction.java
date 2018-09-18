@@ -1,4 +1,4 @@
-package com.anthony.easytrans.consumer.config;
+package com.anthony.trance.api.config;
 
 import org.springframework.context.annotation.Import;
 
